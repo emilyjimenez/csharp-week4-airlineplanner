@@ -35,10 +35,6 @@ namespace AirlinePlanner.Models.Tests
 
         List<City> cities = City.GetAll();
         List<City> expectedCities = new List<City>{newCity};
-        Console.WriteLine("CITIES IN DB: " + cities[0].GetName());
-        Console.WriteLine("EXPECTED CITIES: " + expectedCities[0].GetName());
-        Console.WriteLine("CITIES IN DB ID: " + cities[0].GetId());
-        Console.WriteLine("EXPECTED CITIES ID: " + expectedCities[0].GetId());
         CollectionAssert.AreEqual(expectedCities, cities);
     }
   }
