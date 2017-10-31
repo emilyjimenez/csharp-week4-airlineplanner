@@ -26,11 +26,21 @@ namespace AirlinePlanner.Models.Tests
 
         Assert.AreEqual(0, flights.Count);
     }
+    [TestMethod]
+    public void Find_FindFlightInDatabase_Flight()
+    {
+      Flight testFlight = new Flight("PDX", "DIA", "7:00", "10:00", "ON TIME");
+      testFlight.Save();
+
+      Flight foundFlight = Flight.Find(testFlight.Id);
+
+      Assert.AreEqual(testFlight, foundFlight);
+    }
 
     [TestMethod]
     public void Save_SavesFlightToDatabase_Flight()
     {
-        Flight newFlight = new Flight("7:00", "ON TIME");
+        Flight newFlight = new Flight("PDX", "DIA", "7:00", "10:00", "ON TIME");
         newFlight.Save();
 
         List<Flight> flights = Flight.GetAll();
@@ -41,8 +51,8 @@ namespace AirlinePlanner.Models.Tests
     [TestMethod]
     public void Equals_OverrideTrueForSameDepatureTime_Flight()
     {
-        Flight flight1 = new Flight("7:00", "ON TIME");
-        Flight flight2 = new Flight("7:00", "ON TIME");
+        Flight flight1 = new Flight("PDX", "DIA", "7:00", "10:00", "ON TIME");
+        Flight flight2 = new Flight("PDX", "DIA", "7:00", "10:00", "ON TIME");
 
         Assert.AreEqual(flight1, flight2);
     }

@@ -30,7 +30,7 @@ namespace AirlinePlanner.Models.Tests
     [TestMethod]
     public void Save_SavesCityToDatabase_City()
     {
-        City newCity = new City("Portland");
+        City newCity = new City("PDX");
         newCity.Save();
 
         List<City> cities = City.GetAll();

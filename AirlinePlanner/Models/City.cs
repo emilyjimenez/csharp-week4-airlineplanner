@@ -7,23 +7,13 @@ namespace AirlinePlanner.Models
 {
     public class City
     {
-        private int _id;
-        private string _name;
+        public string Code {get; private set;}
+        public int Id {get; private set;}
 
-        public City(string name, int id = 0)
+        public City(string code, int id = 0)
         {
-            _name = name;
-            _id = id;
-        }
-
-        public int GetId()
-        {
-            return _id;
-        }
-
-        public string GetName()
-        {
-            return _name;
+            Code = code;
+            Id = id;
         }
 
         public void Save()
@@ -32,16 +22,15 @@ namespace AirlinePlanner.Models
             conn.Open();
 
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO cities (name) VALUES (@name);";
+            cmd.CommandText = @"INSERT INTO cities (code) VALUES (@Code);";
 
-            MySqlParameter name = new MySqlParameter();
-            name.ParameterName = "@name";
-            name.Value = this._name;
-            cmd.Parameters.Add(name);
+            MySqlParameter code = new MySqlParameter();
+            code.ParameterName = "@Code";
+            code.Value = this.Code;
+            cmd.Parameters.Add(code);
 
             cmd.ExecuteNonQuery();
-            _id = (int) cmd.LastInsertedId;
-            Console.WriteLine("SAVE METHOD ID: " + _id);
+            Id = (int) cmd.LastInsertedId;
 
             conn.Close();
             if (conn != null)
@@ -64,8 +53,8 @@ namespace AirlinePlanner.Models
             while(rdr.Read())
             {
                 int cityID = rdr.GetInt32(0);
-                string cityName = rdr.GetString(1);
-                City newCity = new City(cityName, cityID);
+                string cityCode = rdr.GetString(1);
+                City newCity = new City(cityCode, cityID);
                 allCities.Add(newCity);
             }
 
@@ -103,14 +92,14 @@ namespace AirlinePlanner.Models
           else
           {
              City newCity = (City) otherCity;
-             bool idEquality = this.GetId() == newCity.GetId();
-             bool nameEquality = this.GetName() == newCity.GetName();
-             return (idEquality && nameEquality);
+             bool idEquality = this.Id == newCity.Id;
+             bool codeEquality = this.Code == newCity.Code;
+             return (idEquality && codeEquality);
            }
         }
         public override int GetHashCode()
         {
-             return this.GetName().GetHashCode();
+             return this.Id.GetHashCode();
         }
     }
 }
